@@ -23,38 +23,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     ModelMapper modelMapper;
 
-    //CREATE NEW EMPLOYEE
-    @Override
-    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
-        employeeDto.setIsActive(true);
-        employeeMapper.insertEmployee(emp);
-        return employeeDto;
-    }
-
-    //UPDATE EMPLOYEE
-    @Override
-    public EmployeeDto updateEmployeeDetails(EmployeeDto employeeDto, int empId) {
-
-        EmployeeDetails registeredEmployee = employeeMapper.findById(empId);
-
-        if(registeredEmployee == null){
-            throw new ResourceNotFoundException("employee", empId);
-        }
-        if(registeredEmployee.getIsActive() == false){
-            throw new NoEmployeeFoundException("Cannot update, since employee is not active.");
-        }
-
-        registeredEmployee.setName(employeeDto.getName());
-        registeredEmployee.setEmailId(employeeDto.getEmailId());
-        registeredEmployee.setPhoneNo(employeeDto.getPhoneNo());
-
-        employeeMapper.updateEmployee(registeredEmployee,empId);
-
-        EmployeeDto emp = modelMapper.map(registeredEmployee, EmployeeDto.class);
-        return emp;
-    }
-
 
     //GET ALL EMPLOYEE DETAILS
     @Override
@@ -89,7 +57,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-    // DELETE BY EMPLOYEE ID
+    //CREATE NEW EMPLOYEE
+    @Override
+    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
+        employeeDto.setIsActive(true);
+        employeeMapper.insertEmployee(emp);
+        return employeeDto;
+    }
+
+    //UPDATE EMPLOYEE
+    @Override
+    public EmployeeDto updateEmployeeDetails(EmployeeDto employeeDto, int empId) {
+
+        EmployeeDetails registeredEmployee = employeeMapper.findById(empId);
+
+        if(registeredEmployee == null){
+            throw new ResourceNotFoundException("employee", empId);
+        }
+        if(registeredEmployee.getIsActive() == false){
+            throw new NoEmployeeFoundException("Cannot update, since employee is not active.");
+        }
+
+        registeredEmployee.setName(employeeDto.getName());
+        registeredEmployee.setEmailId(employeeDto.getEmailId());
+        registeredEmployee.setPhoneNo(employeeDto.getPhoneNo());
+
+        employeeMapper.updateEmployee(registeredEmployee,empId);
+
+        EmployeeDto emp = modelMapper.map(registeredEmployee, EmployeeDto.class);
+        return emp;
+    }
+
+
+    // DELETE BY EMPLOYEE ID (not deleting exactly)
     @Override
     public Boolean deleteEmployeeDetails(int empId){
         EmployeeDetails emp = employeeMapper.findById(empId);
@@ -101,31 +102,4 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        employeeMapper.deleteEmployee(empId);  //this will permanently delete the student
         return true;
     }
-
-
-
-//    @Override
-//    public int deleteEmployeeDetails(int empId){
-//        EmployeeDetails emp = employeeMapper.findById(empId);
-//        if(emp == null){
-//            throw new NoEmployeeFoundException("Employee not found");
-//        }
-//        return employeeMapper.deleteEmployee(empId);
-//    }
-
-
-    //correct
-//    @Override
-//    public int updateEmployeeDetails(EmployeeDto employeeDto, int empId) {
-//        EmployeeDetails employeeDetails = this.modelMapper.map(employeeDto, EmployeeDetails.class);
-//        return employeeMapper.updateEmployee(employeeDetails, empId);
-//    }
-
-//    @Override
-//    public int createEmployee(EmployeeDto employeeDto) {
-//        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
-//        return employeeMapper.createEmployee(emp);
-//    }
-
-
 }
