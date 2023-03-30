@@ -14,16 +14,11 @@ import java.util.List;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @GetMapping("/hello")
-    public static String hello(){
-        return "welcome";
-    }
-
     @Autowired
     EmployeeService employeeService;
 
-//    @Autowired
-//    EmployeeResponse employeeResponse;
+    @Autowired
+    EmployeeResponse employeeResponse;
 
     //Get all employees
     @GetMapping("")
@@ -40,19 +35,11 @@ public class EmployeeController {
     }
 
 
-    //create a new employee
-//    @PostMapping("")
-//    public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
-//        EmployeeDto emp = employeeService.createEmployee(employeeDto);
-////        EmployeeResponse employeeResponse = new EmployeeResponse();
-////        employeeResponse.setName(emp.getName());
-//        return new ResponseEntity<>(emp, HttpStatus.CREATED);
-//    }
-
+    //Create an employee
     @PostMapping("")
     public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeDto employeeDto) {
         EmployeeDto emp = employeeService.createEmployee(employeeDto);
-        EmployeeResponse employeeResponse = new EmployeeResponse();
+
         employeeResponse.setDescription("Employee is created");
         return new ResponseEntity<>(employeeResponse, HttpStatus.CREATED);
     }
@@ -73,18 +60,3 @@ public class EmployeeController {
     }
 
 }
-
-//    @PutMapping("/update/{empId}")
-//    public ResponseEntity updateEmployeeDetails(@RequestBody EmployeeDto employeeDto, @PathVariable(value = "empId") int empId){
-//        int employee = employeeService.updateEmployeeDetails(employeeDto, empId);
-//        return new ResponseEntity(employee, HttpStatus.OK);
-//    }
-
-
-//    @PostMapping("")
-//    public ResponseEntity createEmployee(@RequestBody EmployeeDto employeeDto){
-//        int emp = employeeService.createEmployee(employeeDto);
-//        return new ResponseEntity<>(emp, HttpStatus.CREATED);
-//    }
-
-

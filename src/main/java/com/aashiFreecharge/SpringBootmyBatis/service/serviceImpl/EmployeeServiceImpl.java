@@ -29,9 +29,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
         employeeDto.setIsActive(true);
         employeeMapper.insertEmployee(emp);
-//        System.out.println(emp.toString());
-//        System.out.println(emp.getId());
-//        System.out.println(employeeDto.toString());
         return employeeDto;
     }
 
