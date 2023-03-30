@@ -1,12 +1,13 @@
 package com.aashiFreecharge.SpringBootmyBatis.mapper;
 
 
+import com.aashiFreecharge.SpringBootmyBatis.dtos.EmployeeDto;
 import com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails;
 import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface EmployeeMapper {
+public interface IEmployeeMapper {
 
     @Select("select * from employeeDetails where isActive=1")
     List<EmployeeDetails> getAllEmpDetails();

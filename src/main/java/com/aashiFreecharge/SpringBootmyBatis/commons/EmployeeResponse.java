@@ -1,13 +1,17 @@
 package com.aashiFreecharge.SpringBootmyBatis.commons;
 
+
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.UUID;
+
+
+@Data
 public class EmployeeResponse {
-    private String description;
+
+//    UUID uuid = UUID.randomUUID();
+//    private UUID id = UUID.randomUUID();
+    private String name;
+    private String emailId;
+    private String phoneNo;
 }

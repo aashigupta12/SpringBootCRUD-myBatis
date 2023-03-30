@@ -3,22 +3,26 @@ package com.aashiFreecharge.SpringBootmyBatis.service.serviceImpl;
 import com.aashiFreecharge.SpringBootmyBatis.Exception.NoEmployeeFoundException;
 import com.aashiFreecharge.SpringBootmyBatis.Exception.ResourceNotFoundException;
 import com.aashiFreecharge.SpringBootmyBatis.dtos.EmployeeDto;
-import com.aashiFreecharge.SpringBootmyBatis.mapper.EmployeeMapper;
+import com.aashiFreecharge.SpringBootmyBatis.mapper.IEmployeeMapper;
 import com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails;
 import com.aashiFreecharge.SpringBootmyBatis.service.EmployeeService;
+import com.aashiFreecharge.SpringBootmyBatis.translator.EmployeeTranslator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
-    EmployeeMapper employeeMapper;
+    IEmployeeMapper employeeMapper;
+
+    @Autowired
+    EmployeeTranslator employeeTranslator;
 
     @Autowired
     ModelMapper modelMapper;
@@ -36,11 +40,26 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> employeeDtos = new ArrayList<>();
 
         for(EmployeeDetails employeeDetails: employeeDetailsList){
-            employeeDtos.add(modelMapper.map(employeeDetails, EmployeeDto.class));
+//            employeeDtos.add(modelMapper.map(employeeDetails, EmployeeDto.class));
+            employeeDtos.add(employeeTranslator.entityToDto(employeeDetails));
+
         }
 
         return employeeDtos;
     }
+
+//    @Override
+//    public List<EmployeeDto> getAllDetails() {
+//        List<EmployeeDetails> allEmpDetails = employeeMapper.getAllEmpDetails();
+//
+//        if (allEmpDetails.isEmpty()){
+//            throw new NoEmployeeFoundException("No employee present");
+//        }
+//
+//        return employeeTranslator.translateDetailsListToDto(allEmpDetails);
+//    }
+//
+
 
     // GET EMPLOYEE BY ID
     @Override
@@ -52,7 +71,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         if( emp.getIsActive() == false){
             throw new ResourceNotFoundException("Employee", empId);
         }
-        EmployeeDto employeeDto = modelMapper.map(emp,EmployeeDto.class);
+//        EmployeeDto employeeDto = modelMapper.map(emp,EmployeeDto.class);
+        EmployeeDto employeeDto = employeeTranslator.entityToDto(emp);
         return employeeDto;
     }
 
@@ -60,11 +80,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     //CREATE NEW EMPLOYEE
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
-        employeeDto.setIsActive(true);
+//        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
+        EmployeeDetails emp = employeeTranslator.dtoToEntity(employeeDto);
+
+//        employeeDto.setIsActive(true);
         employeeMapper.insertEmployee(emp);
-        return employeeDto;
+        EmployeeDto em = employeeTranslator.entityToDto(emp);
+        return em;
     }
+
+
 
     //UPDATE EMPLOYEE
     @Override
@@ -85,7 +110,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeMapper.updateEmployee(registeredEmployee,empId);
 
-        EmployeeDto emp = modelMapper.map(registeredEmployee, EmployeeDto.class);
+//        EmployeeDto emp = modelMapper.map(registeredEmployee, EmployeeDto.class);
+        EmployeeDto emp = employeeTranslator.entityToDto(registeredEmployee);
+
         return emp;
     }
 
