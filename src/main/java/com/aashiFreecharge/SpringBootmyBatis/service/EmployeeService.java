@@ -7,7 +7,6 @@ import java.util.Optional;
 
 
 public interface EmployeeService{
-//    public EmployeeDto createEmployee(EmployeeDto employeeDto);
     public EmployeeDto createEmployee(EmployeeDto employeeDto);
 
     public List<EmployeeDto> getAllDetails();

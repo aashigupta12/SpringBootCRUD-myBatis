@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -47,19 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeDtos;
     }
-
-//    @Override
-//    public List<EmployeeDto> getAllDetails() {
-//        List<EmployeeDetails> allEmpDetails = employeeMapper.getAllEmpDetails();
-//
-//        if (allEmpDetails.isEmpty()){
-//            throw new NoEmployeeFoundException("No employee present");
-//        }
-//
-//        return employeeTranslator.translateDetailsListToDto(allEmpDetails);
-//    }
-//
-
 
     // GET EMPLOYEE BY ID
     @Override

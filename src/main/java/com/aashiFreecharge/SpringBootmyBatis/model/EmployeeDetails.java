@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeDetails {
-
     private int id;
     private String name;
     private int phoneNo;

@@ -21,27 +21,35 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
-
-
     private final EmployeeTranslator employeeTranslator;
 
 
     //    Get all employees
-//    @GetMapping("")
-//    public ResponseEntity<List<EmployeeDto>> getAllEmployeeDetails() {
+    @GetMapping("")
+    public ResponseEntity<List<EmployeeDto>> getAllEmployeeDetails() {
+        List<EmployeeDto> employeeDtos = employeeService.getAllDetails();
+        return new ResponseEntity<>(employeeDtos, HttpStatus.OK);
+    }
+
+    /**
+     * Check translateGetDtoListToResponse
+     * */
+    //    @GetMapping("")
+//    public ResponseEntity<List<EmployeeResponse>> getAllEmployeeDetails() {
 //        List<EmployeeDto> employeeDtos = employeeService.getAllDetails();
-//        return new ResponseEntity<>(employeeDtos, HttpStatus.OK);
+//        List<EmployeeResponse> responseBody = employeeTranslator.translateGetDtoListToResponse(employeeDtos);
+//        return new ResponseEntity<>(responseBody, HttpStatus.OK);
 //    }
 
 
     //get employee by employee id
     @GetMapping("/{empId}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable(value = "empId") int id) {
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable(value = "empId") int id) {
         EmployeeDto employeeDto = employeeService.getEmployeeById(id);
-        return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+        return new ResponseEntity<>(employeeTranslator.dtoToResponse(employeeDto), HttpStatus.OK);
     }
 
-
+    //Create a new employee
     @PostMapping("")
     public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
 
@@ -51,21 +59,16 @@ public class EmployeeController {
         return new ResponseEntity<>(e2, HttpStatus.CREATED);
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<EmployeeResponse>> getAllEmployeeDetails() {
-        List<EmployeeDto> employeeDtos = employeeService.getAllDetails();
-        List<EmployeeResponse> responseBody = employeeTranslator.translateGetDtoListToResponse(employeeDtos);
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
-    }
-
 
     //Update employee
     @PostMapping(value = "/update/{empId}")
-    public ResponseEntity<EmployeeDto> updateEmployeeDetails(@RequestBody EmployeeDto employeeDto, @PathVariable(value = "empId") int empId) {
-        EmployeeDto employee = employeeService.updateEmployeeDetails(employeeDto, empId);
-        return new ResponseEntity(employee, HttpStatus.OK);
+    public ResponseEntity<EmployeeResponse> updateEmployeeDetails(@RequestBody EmployeeRequest employeeRequest, @PathVariable(value = "empId") int empId) {
+        EmployeeDto e1 = employeeTranslator.requestToDto(employeeRequest);
+        EmployeeDto employee = employeeService.updateEmployeeDetails(e1, empId);
+        return new ResponseEntity(employeeTranslator.dtoToResponse(e1), HttpStatus.OK);
 
     }
+
 
     //delete an employee by id
     @PostMapping("/delete/{empId}")
@@ -87,3 +90,16 @@ public class EmployeeController {
 //        return new ResponseEntity<>(employeeResponse, HttpStatus.CREATED);
 //    }
 
+//Get employee by Id
+//    @GetMapping("/{empId}")
+//    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable(value = "empId") int id) {
+//        EmployeeDto employeeDto = employeeService.getEmployeeById(id);
+//        return new ResponseEntity<>(employeeDto, HttpStatus.OK);
+//    }
+
+//Update employee
+//    @PostMapping(value = "/update/{empId}")
+//    public ResponseEntity<EmployeeDto> updateEmployeeDetails(@RequestBody EmployeeDto employeeDto, @PathVariable(value = "empId") int empId) {
+//        EmployeeDto employee = employeeService.updateEmployeeDetails(employeeDto, empId);
+//        return new ResponseEntity(employee, HttpStatus.OK);
+//    }

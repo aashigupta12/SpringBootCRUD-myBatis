@@ -12,7 +12,6 @@ public interface IEmployeeMapper {
     @Select("select * from employeeDetails where isActive=1")
     List<EmployeeDetails> getAllEmpDetails();
 
-
     @Select("select * from employeeDetails where id = #{empId}")
     EmployeeDetails findById(int empId);
 
