@@ -11,9 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @Getter
@@ -45,14 +45,13 @@ public class EmployeeTranslator {
                 EmployeeDetailsList, EmployeeDto.class));
     }
 
-    /**
-     * Something wrong below?
-     * */
     public List<EmployeeResponse> translateGetDtoListToResponse(
             List<EmployeeDto> EmployeeDtos) {
-        return (Collections.singletonList(modelMapper.map(
-                EmployeeDtos, EmployeeResponse.class)));
+        List<EmployeeResponse> responses = new ArrayList<>();
+        for(EmployeeDto emp : EmployeeDtos) {
+            responses.add(modelMapper.map(emp, EmployeeResponse.class));
+        }
+        return responses;
     }
-
 
 }

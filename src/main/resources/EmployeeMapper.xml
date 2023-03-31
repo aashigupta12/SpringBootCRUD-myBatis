@@ -1,45 +1,44 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>-->
-<!--<!DOCTYPE mapper-->
-<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
-<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
-<!--<mapper namespace="com.aashiFreecharge.SpringBootmyBatis.mapper.IEmployeeMapper">-->
-<!--    &lt;!&ndash;     we are taking the property name and mapping it to the column names&ndash;&gt;-->
-<!--    <resultMap id="employee" type="com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails" >-->
-<!--        <id property="id" column="id" />-->
-<!--        <result property="name" column="name" />-->
-<!--        <result property="rollNo" column="rollNo" />-->
-<!--        <result property="phoneNo" column="phoneNo" />-->
-<!--        <result property="emailId" column="emailId" />-->
-<!--        <result property="isActive" column="isActive" />-->
-<!--    </resultMap>-->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aashiFreecharge.SpringBootmyBatis.mapper.IEmployeeMapper">
+    <!--     we are taking the property name and mapping it to the column names-->
+    <resultMap id="employee" type="com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails" >
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="phoneNo" column="phone_no" />
+        <result property="emailId" column="email_id" />
+        <result property="isActive" column="is_Active" />
+    </resultMap>
 
-<!--    <select id="getAllEmpDetails" resultMap="employee">-->
-<!--        select * from employeeDetails where isActive=1-->
-<!--    </select>-->
+    <select id="getAllEmpDetails" resultMap="employee">
+        select * from employee_details where is_Active=true
+    </select>
 
-<!--    <insert id="insertEmployee" parameterType="com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails" >-->
-<!--        insert into employeeDetails(name, phoneNo, emailId)-->
-<!--        values( #{name}, #{phoneNo}, #{emailId})-->
-<!--    </insert>-->
+    <insert id="insertEmployee" parameterType="com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails" >
+        insert into employee_details(name, phone_no, email_id)
+        values( #{name}, #{phoneNo}, #{emailId})
+    </insert>
 
-<!--    <update id="updateEmployee" parameterType='com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails'>-->
-<!--        Update employeeDetails-->
-<!--        SET-->
-<!--        phoneNo=#{employeeDetails.phoneNo},-->
-<!--        name=#{employeeDetails.name},-->
-<!--        emailId=#{employeeDetails.emailId},-->
-<!--        isActive=#{employeeDetails.isActive}-->
-<!--        where-->
-<!--        id=#{empId}-->
-<!--    </update>-->
+    <update id="updateEmployee" parameterType='com.aashiFreecharge.SpringBootmyBatis.model.EmployeeDetails'>
+        Update employee_details
+        SET
+        name= #{name},
+        phone_no= #{phoneNo},
+        email_id= #{emailId},
+        is_Active = #{isActive}
+        WHERE
+        id= #{id}
+    </update>
 
-<!--    <delete id="deleteEmployee" >-->
-<!--        Delete from employeeDetails-->
-<!--        where-->
-<!--        id=#{empId}-->
-<!--    </delete>-->
+    <delete id="deleteEmployee" >
+        Delete from employee_details
+        where
+        id=#{id}
+    </delete>
 
-<!--    <select id="findById"  resultMap="student">-->
-<!--        select * from employeeDetails where id = #{empId}-->
-<!--    </select>-->
-<!--</mapper>-->
+    <select id="findById"  resultMap="employee">
+        select * from employee_details where id = #{id}
+    </select>
+</mapper>

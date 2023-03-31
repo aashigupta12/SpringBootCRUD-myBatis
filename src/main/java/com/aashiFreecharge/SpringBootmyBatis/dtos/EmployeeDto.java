@@ -2,13 +2,9 @@ package com.aashiFreecharge.SpringBootmyBatis.dtos;
 
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class EmployeeDto {
-    private int id;
+    private Integer id;
     private String name;
     private int phoneNo;
     private String emailId;

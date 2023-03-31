@@ -37,13 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         List<EmployeeDto> employeeDtos = new ArrayList<>();
-
         for(EmployeeDetails employeeDetails: employeeDetailsList){
-//            employeeDtos.add(modelMapper.map(employeeDetails, EmployeeDto.class));
             employeeDtos.add(employeeTranslator.entityToDto(employeeDetails));
-
         }
-
         return employeeDtos;
     }
 
@@ -54,10 +50,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(emp == null){
             throw new ResourceNotFoundException("Employee", empId);
         }
-        if( emp.getIsActive() == false){
+        if(emp.getIsActive() == false){
             throw new ResourceNotFoundException("Employee", empId);
         }
-//        EmployeeDto employeeDto = modelMapper.map(emp,EmployeeDto.class);
         EmployeeDto employeeDto = employeeTranslator.entityToDto(emp);
         return employeeDto;
     }
@@ -66,16 +61,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     //CREATE NEW EMPLOYEE
     @Override
     public EmployeeDto createEmployee(EmployeeDto employeeDto) {
-//        EmployeeDetails emp = modelMapper.map(employeeDto, EmployeeDetails.class);
-        EmployeeDetails emp = employeeTranslator.dtoToEntity(employeeDto);
-
-//        employeeDto.setIsActive(true);
-        employeeMapper.insertEmployee(emp);
-        EmployeeDto em = employeeTranslator.entityToDto(emp);
-        return em;
+        employeeDto.setIsActive(true);
+        employeeMapper.insertEmployee(employeeTranslator.dtoToEntity(employeeDto));
+        return employeeDto;
     }
-
-
 
     //UPDATE EMPLOYEE
     @Override
@@ -89,17 +78,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(registeredEmployee.getIsActive() == false){
             throw new NoEmployeeFoundException("Cannot update, since employee is not active.");
         }
-
         registeredEmployee.setName(employeeDto.getName());
         registeredEmployee.setEmailId(employeeDto.getEmailId());
         registeredEmployee.setPhoneNo(employeeDto.getPhoneNo());
+        registeredEmployee.setId(empId);
 
-        employeeMapper.updateEmployee(registeredEmployee,empId);
+        registeredEmployee.setIsActive(true);
 
-//        EmployeeDto emp = modelMapper.map(registeredEmployee, EmployeeDto.class);
-        EmployeeDto emp = employeeTranslator.entityToDto(registeredEmployee);
+        employeeMapper.updateEmployee(registeredEmployee);
 
-        return emp;
+        return employeeTranslator.entityToDto(registeredEmployee);
     }
 
 
@@ -111,7 +99,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new NoEmployeeFoundException("Employee not found");
         }
         emp.setIsActive(false);
-        employeeMapper.updateEmployee(emp,emp.getId());
+        employeeMapper.updateEmployee(emp);
 //        employeeMapper.deleteEmployee(empId);  //this will permanently delete the student
         return true;
     }
